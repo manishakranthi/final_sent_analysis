@@ -24,16 +24,16 @@ if __name__ == '__main__':
     sentence = st.text_area('Enter your text here',height=200)
     predict_btt = st.button('predict')
     loaded_model = pickle.load(open('sentiment_analysis.p', 'rb')) 
-    if predict_btt:
-        disp=" "
-	a = loaded_model.predict([sentence])[0]
+if predict_btt:
+    disp=" "
 	
-        if(a== 1):
-		disp = "positive sentiment"
-	elif(a==0):
-		disp = "neutral sentiment"
-	else:
-		disp = "negative sentiment"
-	st.write('The sentiment of the given text is:', disp)
+a = loaded_model.predict([sentence])[0]
+if(a== 1):
+	disp = "positive sentiment"
+elif(a==0):
+	disp = "neutral sentiment"
+else:
+	disp = "negative sentiment"
+st.write('The sentiment of the given text is:', disp)
 
         
