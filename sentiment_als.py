@@ -15,7 +15,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-loaded_model = pickle.load(open('Sentiment_analysis.p', 'rb'))
+loaded_model = pickle.load(open('sentiment_analysis.p', 'rb'))
 
 if __name__ == '__main__':
     st.title('Financial Sentiment Analysis :bar_chart:')
