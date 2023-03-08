@@ -15,54 +15,24 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-loaded_model = pickle.load(open('filename', 'rb'))
-
-def text_cleaning(line_from_column):
-    text = line_from_column.lower()
-    # Replacing the digits/numbers
-    text = text.replace('d', '')
-    # remove stopwords
-    words = [w for w in text if w not in stopwords.words("english")]
-    # apply stemming
-    words = [Word(w).lemmatize() for w in words]
-    # merge words 
-    words = ' '.join(words)
-    return text 
-
-def load():
-	''' Load the calculated TFIDF weights'''
-
-	df = None
-	with open('tfidf.pickle', 'rb') as f:
-		df = pickle.load(f)
-	return df 
+loaded_model = pickle.load(open('Sentiment_analysis.p', 'rb'))
 
 if __name__ == '__main__':
     st.title('Financial Sentiment Analysis :bar_chart:')
     st.write('A simple sentiment analysis classification app')
-    st.subheader('Input the Statment below')
+    st.subheader('Give your input below')
     sentence = st.text_area('Enter your text here',height=200)
     predict_btt = st.button('predict')
-    loaded_model = pickle.load(open('filename', 'rb')) 
+    loaded_model = pickle.load(open('sentiment_analysis.p', 'rb')) 
     if predict_btt:
-        clean_text = []
-        i = text_cleaning(sentence)
-        clean_text.append(i)
-        data = load(clean_text)
+        disp=" "
+	a = loaded_model.predict([sentence])[0]
+        if(a== 1):
+		disp = "positive sentiment"
+	elif(a==0):
+		disp = "neutral sentiment"
+	else:
+		disp = "negative sentiment"
+	st.write('The sentiment of the given text is:', disp)
 
-        # st.info(data)
-        prediction = loaded_model.predict(data)
-
-        prediction_prob_negative = prediction[0][-1]
-        prediction_prob_neutral = prediction[0][0]
-        prediction_prob_positive= prediction[0][1]
-
-        prediction_class = prediction(axis=-1)[0]
-        print(prediction)
-        st.header('Prediction using SVC model')
-        if prediction_class == -1:
-          st.warning('Sentence has negative sentiment')
-        if prediction_class == 0:
-          st.success('Sentence has neutral sentiment')
-        if prediction_class==1:
-          st.success('Sentence has positive sentiment')
+        
